@@ -187669,3 +187669,26 @@ video {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
+
+
+/* Custom styles */
+
+#main-title {
+  font-size: 1.6rem;
+}
+
+nav {
+  margin-top: 10px;
+}
+
+hr {
+  border: 1px solid rgb(35, 35, 35) !important;
+}
+
+summary {
+  list-style: none;
+}
+
+.menu {
+  font-size: 40px;
+}
