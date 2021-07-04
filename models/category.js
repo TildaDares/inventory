@@ -9,4 +9,4 @@ CategorySchema.virtual("url").get(function () {
   return "/" + this.name;
 });
 
-module.exports = mongoose.model("CategorySchema", CategorySchema);
+module.exports = mongoose.model("Category", CategorySchema);
