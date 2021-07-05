@@ -4,9 +4,7 @@
   <a href="" class="self-start mb-3 ml-3 underline">+ Add new brand</a>
   <hr class="w-full">
   <% brands.forEach((brand) => { %>
-    <div class="py-3 px-6">
-      <a href="<%= brand.url %>"><%= brand.name %></a>
-    </div>
+    <a href="<%= brand.url %>" class="py-3 px-6"><%= brand.name %></a>
     <hr class="w-full">
   <% }) %>
 </section>
