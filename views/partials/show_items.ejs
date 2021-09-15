@@ -1,0 +1,41 @@
+<% layout('./layout') -%>
+<section class="flex flex-col justify-center items-center mt-24 w-full text-sm">
+  <h2 class="text-xl mb-6 text-blue-500"><%= title %></h2>
+  <a href="" class="self-start mb-3 ml-3 underline">+ Add new item</a>
+  <hr class="w-full" />
+  <% items.forEach((item) => { %>
+  <a href="#" class="w-full my-3 p-3 block">
+    <div class="flex justify-between items-center">
+      <div class="flex gap-4">
+        <img
+          src="/images/<%= item.filename %>"
+          alt="<%= item.filename.slice(0, item.filename.split('').indexOf('.')) %>"
+          class="object-contain w-16 h-16"
+        />
+        <div>
+          <p><%= item.name %></p>
+          <p><%= item.category.name + ' - ' + item.brand.name %></p>
+          <p class="text-gray-400">$<%= item.price %></p>
+        </div>
+      </div>
+      <div>
+        <p
+          class="
+            rounded-full
+            h-10
+            w-10
+            bg-black
+            flex
+            items-center
+            justify-center
+            text-blue-500
+          "
+        >
+          <%= item.price %>
+        </p>
+      </div>
+    </div>
+  </a>
+  <hr class="w-full" />
+  <% }) %>
+</section>
