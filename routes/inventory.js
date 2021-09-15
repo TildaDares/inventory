@@ -5,6 +5,7 @@ const brandsController = require("../controllers/brandController");
 const categoryController = require("../controllers/categoryController");
 
 router.get("/items", itemsController.index);
+router.get("/items/new", itemsController.item_create_get);
 
 router.get("/brands", brandsController.brand_list);
 router.get("/brand/:name/:id", brandsController.brand_items);
