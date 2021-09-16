@@ -10,8 +10,8 @@
     <div class="flex justify-between items-center">
       <div class="flex gap-4">
         <img
-          src="/images/<%= item.filename %>"
-          alt="<% if(typeof item.filename !== 'undefined') {item.filename.slice(0, item.filename.split('').indexOf('.')) }%>"
+          src="/images/<%= item.filename || 'placeholder-image.jpeg' %>"
+          alt="<%= (typeof item.filename !== 'undefined') ? item.filename.slice(0, item.filename.split('').indexOf('.')) : 'No image available' %>"
           class="object-contain w-16 h-16"
         />
         <div>
@@ -33,7 +33,7 @@
             text-blue-500
           "
         >
-          <%= item.price %>
+          <%= item.stock %>
         </p>
       </div>
     </div>
