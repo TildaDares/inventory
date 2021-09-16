@@ -9,12 +9,12 @@ const ItemSchema = new Schema({
   category: { type: Schema.Types.ObjectId, ref: category, required: true },
   price: { type: Number, required: true, min: 1 },
   brand: { type: Schema.Types.ObjectId, ref: brand, required: true },
-  stock: {type: Number, required: true, min: 0},
-  filename: String
+  stock: { type: Number, required: true, min: 0 },
+  filename: String,
 });
 
 ItemSchema.virtual("url").get(function () {
-  return `/${this.category}/${this._id}`;
+  return `/${this.name.split(" ").join("-").toLowercase()}/${this._id}`;
 });
 
 module.exports = mongoose.model("Item", ItemSchema);

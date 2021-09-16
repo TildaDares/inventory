@@ -1,6 +1,13 @@
 <% layout('layout') -%>
 <section class="flex justify-center items-center flex-col mt-8">
   <h2 class="text-center text-xl text-blue-500"><%= title %></h2>
+  <% if (typeof errors !== 'undefined') { %>
+  <ul>
+    <% for (const err in errors) { %>
+    <li>err.msg</li>
+    <% } %>
+  </ul>
+  <% } %>
   <form
     class="
       border border-gray-200
@@ -12,6 +19,8 @@
       w-full
       max-w-md
     "
+    method="POST"
+    action=""
   >
     <label for="name" class="text-blue-500">Name</label>
     <input
@@ -23,11 +32,13 @@
         px-3
       "
       type="text"
+      required
       id="name"
       name="name"
     />
     <label for="category" class="pt-3 text-blue-500">Category</label>
     <select
+      name="category"
       id="category"
       class="
         border border-gray-800
@@ -44,6 +55,7 @@
     <label for="brand" class="pt-3 text-blue-500">Brand</label>
     <select
       id="brand"
+      name="brand"
       class="
         border border-gray-800
         rounded
@@ -62,6 +74,8 @@
       name="price"
       type="number"
       min="0"
+      value="0"
+      required
       max="1000000"
       class="
         border border-gray-800
@@ -78,6 +92,8 @@
       id="stock"
       name="stock"
       type="number"
+      required
+      value="0"
       class="
         border border-gray-800
         rounded
