@@ -34,6 +34,7 @@
       type="text"
       required
       id="name"
+      value="<%= typeof item === 'undefined' ? '' : item.name %>"
       name="name"
     />
     <label for="category" class="pt-3 text-blue-500">Category</label>
@@ -49,7 +50,20 @@
       "
     >
       <% for (const category of categories) { %>
-      <option value="<%= category.id %>"><%= category.name %></option>
+        <% if(typeof item !== 'undefined') { %>
+          <option
+            value="<%= category.id %>"
+            selected="<%= item.category._id.toString() === category._id ? 'selected' : false %>"
+          >
+            <%= category.name %>
+          </option>
+        <% } else { %>
+          <option
+            value="<%= category.id %>"
+          >
+            <%= category.name %>
+          </option>
+        <% } %>
       <% } %>
     </select>
     <label for="brand" class="pt-3 text-blue-500">Brand</label>
@@ -65,7 +79,16 @@
       "
     >
       <% for (const brand of brands) { %>
-      <option value="<%= brand.id %>"><%= brand.name %></option>
+        <% if(typeof item !== 'undefined') { %>
+          <option
+            value="<%= brand.id %>"
+            selected="<%= item.brand._id.toString() === brand._id ? 'selected' : false %>"
+          >
+            <%= brand.name %>
+          </option>
+        <% } else { %>
+          <<option value="<%= brand.id %>"><%= brand.name %></option>
+        <% } %>
       <% } %>
     </select>
     <label for="price" class="pt-3 text-blue-500">Price</label>
@@ -74,7 +97,7 @@
       name="price"
       type="number"
       min="0"
-      value="0"
+      value="<%= typeof item === 'undefined' ? '0' : item.price %>"
       required
       max="1000000"
       class="
@@ -93,7 +116,7 @@
       name="stock"
       type="number"
       required
-      value="0"
+      value="<%= typeof item === 'undefined' ? '0' : item.stock %>"
       class="
         border border-gray-800
         rounded
