@@ -37,6 +37,18 @@
       value="<%= typeof item === 'undefined' ? '' : item.name %>"
       name="name"
     />
+    <label for="description" class="pt-3 text-blue-500">Description</label>
+    <textarea 
+      name="description" 
+      id="description" 
+      class="
+        border border-gray-800
+        rounded
+        text-sm
+        bg-gray-800
+        focus:outline-none focus:border-blue-900
+        ">
+    </textarea>
     <label for="category" class="pt-3 text-blue-500">Category</label>
     <select
       name="category"
