@@ -6,6 +6,7 @@ var Schema = mongoose.Schema;
 
 const ItemSchema = new Schema({
   name: { type: String, minLength: 1, required: true },
+  description: { type: String, minLength: 1, required: true },
   category: { type: Schema.Types.ObjectId, ref: category, required: true },
   price: { type: Number, required: true, min: 1 },
   brand: { type: Schema.Types.ObjectId, ref: brand, required: true },
@@ -14,7 +15,7 @@ const ItemSchema = new Schema({
 });
 
 ItemSchema.virtual("url").get(function () {
-  return `/${this.name.split(" ").join("-").toLowercase()}/${this._id}`;
+  return `/items/${this.name.split(" ").join("-").toLowerCase()}/${this._id}`;
 });
 
 module.exports = mongoose.model("Item", ItemSchema);

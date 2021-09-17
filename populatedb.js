@@ -28,9 +28,27 @@ var items = [];
 var brands = [];
 var categories = [];
 
-function itemCreate(name, category, price, brand, stock, filename, cb) {
-  item_detail = { name: name, price: price, category: category, brand: brand, stock: stock };
-  if (filename !== null) {item_detail.filename = filename}
+function itemCreate(
+  name,
+  description,
+  category,
+  price,
+  brand,
+  stock,
+  filename,
+  cb
+) {
+  item_detail = {
+    name: name,
+    description: description,
+    price: price,
+    category: category,
+    brand: brand,
+    stock: stock,
+  };
+  if (filename !== null) {
+    item_detail.filename = filename;
+  }
 
   var item = new Item(item_detail);
 
@@ -148,6 +166,7 @@ function createItems(cb) {
       function (callback) {
         itemCreate(
           "Floral Knitwear Sweater",
+          "The Floral Knitwear Sweater is a comfortable beige colored sweater. It is perfect for a cold weather.",
           categories[2],
           100,
           brands[0],
@@ -157,11 +176,21 @@ function createItems(cb) {
         );
       },
       function (callback) {
-        itemCreate("Mom Jeans", categories[6], 400, brands[8], 3, "mom-jeans.jpeg", callback);
+        itemCreate(
+          "Mom Jeans",
+          "The Mom Jeans provides comfort and a chic style. Perfect a night out with friends. The jeans comes in a faded blue color. Sizes Small(S), Medium(M), Large(L) and Extra Large(XL) are available.",
+          categories[6],
+          400,
+          brands[8],
+          3,
+          "mom-jeans.jpeg",
+          callback
+        );
       },
       function (callback) {
         itemCreate(
           "Butterfly Ankara Top",
+          "The Butterfly Ankara Top is perfect to wear on jeans.",
           categories[2],
           150,
           brands[0],
@@ -173,6 +202,7 @@ function createItems(cb) {
       function (callback) {
         itemCreate(
           "Leather Biker Jacket",
+          "If you're looking to look badass, then this is the jacket for you. The jacket is made from real leather",
           categories[4],
           200,
           brands[1],
@@ -182,11 +212,21 @@ function createItems(cb) {
         );
       },
       function (callback) {
-        itemCreate("Bandage Dress", categories[0], 1200, brands[2], 1000, "bandage-dress.jpg", callback);
+        itemCreate(
+          "Bandage Dress",
+          "This dress is the talk of the town and it's only right to have something that makes you feel sexy.",
+          categories[0],
+          1200,
+          brands[2],
+          1000,
+          "bandage-dress.jpg",
+          callback
+        );
       },
       function (callback) {
         itemCreate(
           "Ruched Pencil Drawstrings Skirt",
+          "This skirt is avilable in red, black and white.",
           categories[1],
           240,
           brands[4],
@@ -198,6 +238,7 @@ function createItems(cb) {
       function (callback) {
         itemCreate(
           "Why We Should All Be Feminists Shirt",
+          "This shirt has the popular Chimamanda Adichie's book name.",
           categories[4],
           150,
           brands[3],
@@ -209,6 +250,7 @@ function createItems(cb) {
       function (callback) {
         itemCreate(
           "Beige Athleisure Set",
+          "Perfect for gym day",
           categories[5],
           200,
           brands[5],
