@@ -142,3 +142,11 @@ exports.item_update_get = function (req, res, next) {
     }
   );
 };
+
+exports.item_delete_post = function (req, res, next) {
+  Item.findByIdAndDelete(req.params.id, function (err) {
+    if (err) return next(err);
+
+    res.redirect("/items");
+  });
+};
