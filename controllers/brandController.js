@@ -1,7 +1,7 @@
 const { body, validationResult } = require("express-validator");
 const Brand = require("../models/brand");
 const Item = require("../models/item");
-const async = require("async")
+const async = require("async");
 
 exports.brand_list = function (req, res, next) {
   Brand.find({}).exec(function (err, results) {
@@ -108,3 +108,11 @@ exports.brand_update_post = [
     }
   },
 ];
+
+exports.brand_delete_post = function (req, res, next) {
+  Brand.findByIdAndDelete(req.params.id, function (err) {
+    if (err) return next(err);
+
+    res.redirect("/brands");
+  });
+};

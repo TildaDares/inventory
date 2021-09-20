@@ -14,6 +14,7 @@ router.get("/items", itemsController.index);
 
 router.get("/brand/:name/:id/update", brandsController.brand_update_get);
 router.post("/brand/:name/:id/update", brandsController.brand_update_post);
+router.post("/brand/:name/:id/delete", brandsController.brand_delete_post);
 router.get("/brands/create", brandsController.brand_create_get);
 router.post("/brands/create", brandsController.brand_create_post);
 router.get("/brand/:name/:id", brandsController.brand_items);
@@ -26,6 +27,10 @@ router.get(
 router.post(
   "/category/:name/:id/update",
   categoryController.category_update_post
+);
+router.post(
+  "/category/:name/:id/delete",
+  categoryController.category_delete_post
 );
 router.get("/category/create", categoryController.category_create_get);
 router.post("/category/create", categoryController.category_create_post);

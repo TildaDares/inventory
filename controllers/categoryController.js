@@ -108,3 +108,12 @@ exports.category_update_post = [
     }
   },
 ];
+
+exports.category_delete_post = function (req, res, next) {
+  Category.findByIdAndDelete(req.params.id, function (err) {
+    if (err) return next(err);
+
+    res.redirect("/categories");
+  });
+};
+
