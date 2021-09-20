@@ -1,1 +1,5 @@
-<%- partial('partials/show_items', {title: title, items: items }) %>
+<% layout('./layout') -%>
+<section class="flex flex-col justify-center items-center mt-24 w-full text-sm">
+  <h2 class="text-xl mb-6 text-blue-500"><%= title %></h2>
+  <%- partial('partials/show_items', { items: items }) %>
+</section>

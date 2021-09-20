@@ -1,1 +1,11 @@
-<%- partial('partials/show_items', {title: title, items: items }) %>
+<% layout('./layout') -%>
+<section class="flex flex-col justify-center items-center mt-24 w-full text-sm">
+  <h2 class="text-xl mb-6 text-blue-500"><%= title %>
+    <% if (typeof brand !== 'undefined') { %>
+      <a href="<%= brand.url + '/update' %>">
+        <%- partial('partials/edit_svg') %>
+      </a>
+    <% } %>
+  </h2>
+  <%- partial('partials/show_items', { items: items }) %>
+</section>
