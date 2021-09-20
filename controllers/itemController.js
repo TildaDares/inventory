@@ -143,6 +143,63 @@ exports.item_update_get = function (req, res, next) {
   );
 };
 
+exports.item_update_post = [
+  body("name", "Title must not be empty.").trim().isLength({ min: 1 }).escape(),
+  body("price", "Price must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("stock", "Stock must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+
+  (req, res, next) => {
+    const errors = validationResult(req);
+
+    const item = new Item({
+      name: req.body.name,
+      description: req.body.description,
+      category: req.body.category,
+      brand: req.body.brand,
+      price: req.body.price,
+      stock: req.body.stock,
+      _id: req.params.id
+    });
+
+    if (!errors.isEmpty()) {
+      async.parallel(
+        {
+          brands: function (callback) {
+            Brand.find(callback);
+          },
+          categories: function (callback) {
+            Category.find(callback);
+          },
+        },
+        function (err, results) {
+          if (err) return next(err);
+
+          res.render("item_form", {
+            title: "Edit Item",
+            item: item,
+            brands: results.brands,
+            categories: results.categories,
+            errors: errors.array(),
+          });
+        }
+      );
+      return;
+    } else {
+        Item.findByIdAndUpdate(req.params.id, item, {}, function (err, itemResult) {
+          if (err) return next(err);
+
+          res.redirect(itemResult.url);
+        });
+    }
+  },
+];
+
 exports.item_delete_post = function (req, res, next) {
   Item.findByIdAndDelete(req.params.id, function (err) {
     if (err) return next(err);
