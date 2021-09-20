@@ -17,6 +17,22 @@ exports.index = function (req, res, next) {
     });
 };
 
+exports.show = function (req, res, next) {
+  Item.findById(req.params.id)
+    .populate("category brand")
+    .exec(function (err, results) {
+      if (err) return next(err);
+
+      if (results == null) {
+        let err = new Error("Item not found");
+        err.status = 404;
+        return next(err);
+      }
+
+      res.render("show_item", { item: results });
+    });
+};
+
 exports.item_create_get = function (req, res, next) {
   async.parallel(
     {
@@ -55,6 +71,7 @@ exports.item_create_post = [
 
     const item = new Item({
       name: req.body.name,
+      description: req.body.description,
       category: req.body.category,
       brand: req.body.brand,
       price: req.body.price,
@@ -92,3 +109,36 @@ exports.item_create_post = [
     }
   },
 ];
+
+exports.item_update_get = function (req, res, next) {
+  async.parallel(
+    {
+      item: function (callback) {
+        Item.findById(req.params.id).populate("category brand").exec(callback);
+      },
+      brands: function (callback) {
+        Brand.find(callback);
+      },
+      categories: function (callback) {
+        Category.find(callback);
+      },
+    },
+    function (err, results) {
+      if (err) return next(err);
+
+      if (results.item == null) {
+        let err = new Error("Item not found");
+        err.status = 404;
+        return next(err);
+      }
+
+      res.render("item_form", {
+        title: "Edit Form",
+        item: results.item,
+        brands: results.brands,
+        categories: results.categories,
+      });
+      return;
+    }
+  );
+};

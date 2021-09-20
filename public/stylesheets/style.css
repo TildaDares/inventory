@@ -187692,3 +187692,7 @@ summary {
 .menu {
   font-size: 40px;
 }
+
+.h-70vh {
+  height: 70vh;
+}

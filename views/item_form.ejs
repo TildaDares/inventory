@@ -44,11 +44,12 @@
       class="
         border border-gray-800
         rounded
+        px-2
         text-sm
         bg-gray-800
         focus:outline-none focus:border-blue-900
-        ">
-    </textarea>
+        "
+    ><%= typeof item === 'undefined' ? '' : item.description %></textarea>
     <label for="category" class="pt-3 text-blue-500">Category</label>
     <select
       name="category"
@@ -65,7 +66,7 @@
         <% if(typeof item !== 'undefined') { %>
           <option
             value="<%= category.id %>"
-            selected="<%= item.category._id.toString() === category._id ? 'selected' : false %>"
+            <%= category._id.toString() === item.category._id.toString() ? 'selected' : '' %>
           >
             <%= category.name %>
           </option>
@@ -94,7 +95,7 @@
         <% if(typeof item !== 'undefined') { %>
           <option
             value="<%= brand.id %>"
-            selected="<%= item.brand._id.toString() === brand._id ? 'selected' : false %>"
+            <%= brand._id.toString() === item.brand._id.toString() ? 'selected' : '' %>
           >
             <%= brand.name %>
           </option>
@@ -103,7 +104,7 @@
         <% } %>
       <% } %>
     </select>
-    <label for="price" class="pt-3 text-blue-500">Price</label>
+    <label for="price" class="pt-3 text-blue-500">Price ($)</label>
     <input
       id="price"
       name="price"
