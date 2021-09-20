@@ -1,6 +1,7 @@
 const Category = require("../models/category");
 const Item = require("../models/item");
 const { body, validationResult } = require("express-validator");
+const async = require('async')
 
 exports.category_list = function (req, res, next) {
   Category.find({}).exec(function (err, results) {
@@ -13,14 +14,28 @@ exports.category_list = function (req, res, next) {
 };
 
 exports.category_items = function (req, res, next) {
-  Item.find({ category: req.params.id })
-    .populate("brand")
-    .populate("category")
-    .exec(function (err, results) {
+  async.parallel(
+    {
+      items: function (callback) {
+        Item.find({ category: req.params.id })
+          .populate("brand category")
+          .exec(callback);
+      },
+      category: function (callback) {
+        Category.findById(req.params.id).exec(callback);
+      },
+    },
+    function (err, results) {
       if (err) return next(err);
 
-      res.render("category_items", { title: req.params.name, items: results });
-    });
+      res.render("category_items", {
+        title: req.params.name,
+        items: results.items,
+        category: results.category,
+      });
+      return;
+    }
+  );
 };
 
 exports.category_create_get = function (req, res, next) {
@@ -50,3 +65,17 @@ exports.category_create_post = [
     }
   },
 ];
+
+exports.category_update_get = function (req, res, next) {
+  Category.findById(req.params.id).exec(function (err, results) {
+    if (err) return next(err);
+
+    if (results == null) {
+      let error = new Error("Category not found");
+      error.status = 404;
+      return next(err);
+    }
+
+    res.render("category_brand_form", { title: "Edit Category", arg: results });
+  });
+};

@@ -1,6 +1,7 @@
 const { body, validationResult } = require("express-validator");
 const Brand = require("../models/brand");
 const Item = require("../models/item");
+const async = require("async")
 
 exports.brand_list = function (req, res, next) {
   Brand.find({}).exec(function (err, results) {
@@ -13,14 +14,28 @@ exports.brand_list = function (req, res, next) {
 };
 
 exports.brand_items = function (req, res, next) {
-  Item.find({ brand: req.params.id })
-    .populate("brand")
-    .populate("category")
-    .exec(function (err, results) {
+  async.parallel(
+    {
+      items: function (callback) {
+        Item.find({ brand: req.params.id })
+          .populate("brand category")
+          .exec(callback);
+      },
+      brand: function (callback) {
+        Brand.findById(req.params.id).exec(callback);
+      },
+    },
+    function (err, results) {
       if (err) return next(err);
 
-      res.render("brand_items", { title: req.params.name, items: results });
-    });
+      res.render("brand_items", {
+        title: req.params.name,
+        items: results.items,
+        brand: results.brand,
+      });
+      return;
+    }
+  );
 };
 
 exports.brand_create_get = function (req, res, next) {
@@ -50,3 +65,17 @@ exports.brand_create_post = [
     }
   },
 ];
+
+exports.brand_update_get = function (req, res, next) {
+  Brand.findById(req.params.id).exec(function (err, results) {
+    if (err) return next(err);
+
+    if (results == null) {
+      let error = new Error("Category not found");
+      error.status = 404;
+      return next(err);
+    }
+
+    res.render("category_brand_form", { title: "Edit Brand", arg: results });
+  });
+};
