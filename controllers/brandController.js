@@ -79,3 +79,32 @@ exports.brand_update_get = function (req, res, next) {
     res.render("category_brand_form", { title: "Edit Brand", arg: results });
   });
 };
+
+exports.brand_update_post = [
+  body("name", "Name should not be empty").trim().isLength({ min: 1 }).escape(),
+
+  (req, res, next) => {
+    const errors = validationResult(req);
+
+    const brand = new Brand({ name: req.body.name, _id: req.params.id });
+
+    if (!errors.isEmpty()) {
+      res.render("category_brand_form", {
+        title: "Edit Brand",
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      Brand.findByIdAndUpdate(
+        req.params.id,
+        brand,
+        {},
+        function (err, brandResult) {
+          if (err) return next(err);
+
+          res.redirect(brandResult.url);
+        }
+      );
+    }
+  },
+];
