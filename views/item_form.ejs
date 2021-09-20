@@ -146,6 +146,15 @@
       >
         Submit
       </button>
+      <% if(title === 'Edit Form') { %>
+        <button
+          type="button"
+          name="delete"
+          class="bg-red-500 rounded p-2 float-left text-sm"
+        >
+          Delete Item
+        </button>
+      <% } %>
     </div>
   </form>
 </section>
