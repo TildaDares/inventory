@@ -22,6 +22,10 @@ router.get(
   "/category/:name/:id/update",
   categoryController.category_update_get
 );
+router.post(
+  "/category/:name/:id/update",
+  categoryController.category_update_post
+);
 router.get("/category/create", categoryController.category_create_get);
 router.post("/category/create", categoryController.category_create_post);
 router.get("/category/:name/:id", categoryController.category_items);

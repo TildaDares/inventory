@@ -1,7 +1,7 @@
 const Category = require("../models/category");
 const Item = require("../models/item");
 const { body, validationResult } = require("express-validator");
-const async = require('async')
+const async = require("async");
 
 exports.category_list = function (req, res, next) {
   Category.find({}).exec(function (err, results) {
@@ -79,3 +79,32 @@ exports.category_update_get = function (req, res, next) {
     res.render("category_brand_form", { title: "Edit Category", arg: results });
   });
 };
+
+exports.category_update_post = [
+  body("name", "Name should not be empty").trim().isLength({ min: 1 }).escape(),
+
+  (req, res, next) => {
+    const errors = validationResult(req);
+
+    const category = new Category({ name: req.body.name, _id: req.params.id });
+
+    if (!errors.isEmpty()) {
+      res.render("category_brand_form", {
+        title: "Edit Category",
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      Category.findByIdAndUpdate(
+        req.params.id,
+        category,
+        {},
+        function (err, categoryResult) {
+          if (err) return next(err);
+
+          res.redirect(categoryResult.url);
+        }
+      );
+    }
+  },
+];
