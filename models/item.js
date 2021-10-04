@@ -8,7 +8,7 @@ const ItemSchema = new Schema({
   name: { type: String, minLength: 1, required: true },
   description: { type: String, minLength: 1, required: true },
   category: { type: Schema.Types.ObjectId, ref: category, required: true },
-  price: { type: Number, required: true, min: 1 },
+  price: { type: Number, required: true, min: 0 },
   brand: { type: Schema.Types.ObjectId, ref: brand, required: true },
   stock: { type: Number, required: true, min: 0 },
   filename: String,
