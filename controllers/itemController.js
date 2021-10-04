@@ -177,7 +177,7 @@ exports.item_update_get = function (req, res, next) {
 };
 
 exports.item_update_post = [
-  upload.none(),
+  upload.single('avatar'),
 
   body("name", "Title must not be empty.").trim().isLength({ min: 1 }).escape(),
   body("price", "Price must not be empty.")
@@ -201,6 +201,10 @@ exports.item_update_post = [
       stock: req.body.stock,
       _id: req.params.id,
     });
+
+    if (req.file) {
+      item.filename = req.file.filename;
+    }
 
     if (!errors.isEmpty()) {
       async.parallel(
