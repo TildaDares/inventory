@@ -6,8 +6,12 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
 var inventoryRouter = require("./routes/inventory");
+var compression = require("compression");
+var helmet = require("helmet");
 
 var app = express();
+
+app.use(helmet());
 
 //Set up mongoose connection
 var mongoose = require("mongoose");
@@ -24,11 +28,13 @@ app.engine("ejs", engine);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
+app.use(compression()); //Compress all routes
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
 
 app.use("/", inventoryRouter);
 
