@@ -187696,3 +187696,9 @@ summary {
 .h-70vh {
   height: 70vh;
 }
+
+@media(min-width: 960px) {
+  .max-w-60 {
+    max-width: 60%;
+  }
+}
