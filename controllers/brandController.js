@@ -109,10 +109,30 @@ exports.brand_update_post = [
   },
 ];
 
-exports.brand_delete_post = function (req, res, next) {
-  Brand.findByIdAndDelete(req.params.id, function (err) {
+exports.brand_delete_get = function (req, res, next) {
+  Brand.findById(req.params.id).exec(function (err, result) {
     if (err) return next(err);
 
-    res.redirect("/brands");
+    res.render("brand_delete", { brand: result });
+  });
+};
+
+exports.brand_delete_post = function (req, res, next) {
+  Brand.findById(req.params.id).exec(function (err, result) {
+    if (err) return next(err);
+
+    if (req.body.name === result.name) {
+      Brand.findByIdAndDelete(req.params.id, function (err) {
+        if (err) return next(err);
+
+        res.redirect("/brands");
+      });
+      return;
+    }
+
+    res.render("brand_delete", {
+      brand: result,
+      error: "Name does not match",
+    });
   });
 };

@@ -109,11 +109,30 @@ exports.category_update_post = [
   },
 ];
 
-exports.category_delete_post = function (req, res, next) {
-  Category.findByIdAndDelete(req.params.id, function (err) {
+exports.category_delete_get = function (req, res, next) {
+  Category.findById(req.params.id).exec(function (err, result) {
     if (err) return next(err);
 
-    res.redirect("/categories");
+    res.render("category_delete", { category: result });
   });
 };
 
+exports.category_delete_post = function (req, res, next) {
+  Category.findById(req.params.id).exec(function (err, result) {
+    if (err) return next(err);
+
+    if (req.body.name === result.name) {
+      Category.findByIdAndDelete(req.params.id, function (err) {
+        if (err) return next(err);
+
+        res.redirect("/categories");
+      });
+      return;
+    }
+
+    res.render("category_delete", {
+      category: result,
+      error: "Name does not match",
+    });
+  });
+};

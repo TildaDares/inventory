@@ -1,0 +1,46 @@
+<% layout('layout') -%>
+<section class="mt-6 mx-8">
+  <p class="text-red-500">Are you sure want to delete this category?</p>
+  <div class="border border-gray-700 rounded my-5 p-3">
+    <p><%= category.name %></p>
+  </div>
+  <p>
+    Enter the name of the category in the input field to confirm this action.
+    <b><%= category.name %></b>
+  </p>
+  <form method="POST">
+    <input
+      type="text"
+      name="name"
+      required
+      class="
+        border border-gray-800
+        rounded
+        bg-gray-800
+        focus:outline-none focus:border-blue-900
+        px-2
+        py-2
+        w-full
+        mt-4
+      "
+    />
+
+    <% if (typeof error !== 'undefined') { %>
+    <small class="text-red-500"><%= error %></small>
+    <% } %>
+
+    <div class="flex justify-between gap-8 text-center mt-4">
+      <a
+        href="/categories"
+        class="w-full border border-blue-500 text-blue-500 rounded p-2 text-sm"
+        >Cancel</a
+      >
+      <button
+        type="submit"
+        class="w-full border border-red-500 text-red-500 rounded p-2 text-sm"
+      >
+        Done
+      </button>
+    </div>
+  </form>
+</section>
