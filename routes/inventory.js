@@ -6,6 +6,7 @@ const categoryController = require("../controllers/categoryController");
 
 router.get("/items/:name/:id/update", itemsController.item_update_get);
 router.post("/items/:name/:id/update", itemsController.item_update_post);
+router.get("/items/:name/:id/delete", itemsController.item_delete_get);
 router.post("/items/:name/:id/delete", itemsController.item_delete_post);
 router.get("/items/create", itemsController.item_create_get);
 router.post("/items/create", itemsController.item_create_post);

@@ -83,7 +83,7 @@ exports.item_create_get = function (req, res, next) {
 };
 
 exports.item_create_post = [
-  upload.single('avatar'),
+  upload.single("avatar"),
 
   body("name", "Title must not be empty.").trim().isLength({ min: 1 }).escape(),
   body("price", "Price must not be empty.")
@@ -238,10 +238,35 @@ exports.item_update_post = [
   },
 ];
 
+exports.item_delete_get = function (req, res, next) {
+  Item.findById(req.params.id)
+    .populate("brand category")
+    .exec(function (err, result) {
+      if (err) return next(err);
+
+      if (result == null) {
+        let err = new Error("Item not found");
+        err.status = 404;
+        return next(err);
+      }
+
+      res.render("item_delete", { item: result });
+    });
+};
+
 exports.item_delete_post = function (req, res, next) {
-  Item.findByIdAndDelete(req.params.id, function (err) {
+  Item.findById(req.params.id).exec(function (err, result) {
     if (err) return next(err);
 
-    res.redirect("/items");
+    if (req.body.name === result.name) {
+      Item.findByIdAndDelete(req.params.id, function (err) {
+        if (err) return next(err);
+
+        res.redirect("/items");
+      });
+      return;
+    }
+    
+    res.render("item_delete", { item: result, error: "Name does not match" });
   });
 };
