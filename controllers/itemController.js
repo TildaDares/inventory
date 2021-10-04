@@ -2,8 +2,8 @@ const Item = require("../models/item");
 const Brand = require("../models/brand");
 const Category = require("../models/category");
 const async = require("async");
-const { body, validationResult } = require("express-validator");
 const multer = require("multer");
+const { body, validationResult } = require("express-validator");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -177,6 +177,8 @@ exports.item_update_get = function (req, res, next) {
 };
 
 exports.item_update_post = [
+  upload.none(),
+
   body("name", "Title must not be empty.").trim().isLength({ min: 1 }).escape(),
   body("price", "Price must not be empty.")
     .trim()
