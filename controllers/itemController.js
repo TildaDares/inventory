@@ -3,6 +3,22 @@ const Brand = require("../models/brand");
 const Category = require("../models/category");
 const async = require("async");
 const { body, validationResult } = require("express-validator");
+const multer = require("multer");
+
+const uniqueFileName = (fieldname) => {
+  return Date.now() + "-" + fieldname + ".jpg";
+};
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/images/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, uniqueFileName(file.fieldname));
+  },
+});
+
+const upload = multer({ storage: storage });
 
 exports.index = function (req, res, next) {
   Item.find({})
@@ -56,6 +72,8 @@ exports.item_create_get = function (req, res, next) {
 };
 
 exports.item_create_post = [
+  upload.single("avatar"),
+  
   body("name", "Title must not be empty.").trim().isLength({ min: 1 }).escape(),
   body("price", "Price must not be empty.")
     .trim()
@@ -68,6 +86,7 @@ exports.item_create_post = [
 
   (req, res, next) => {
     const errors = validationResult(req);
+    console.log(req);
 
     const item = new Item({
       name: req.body.name,
@@ -77,6 +96,10 @@ exports.item_create_post = [
       price: req.body.price,
       stock: req.body.stock,
     });
+
+    if (req.file) {
+      item.filename = req.file.filename;
+    }
 
     if (!errors.isEmpty()) {
       async.parallel(
@@ -164,7 +187,7 @@ exports.item_update_post = [
       brand: req.body.brand,
       price: req.body.price,
       stock: req.body.stock,
-      _id: req.params.id
+      _id: req.params.id,
     });
 
     if (!errors.isEmpty()) {
@@ -191,11 +214,16 @@ exports.item_update_post = [
       );
       return;
     } else {
-        Item.findByIdAndUpdate(req.params.id, item, {}, function (err, itemResult) {
+      Item.findByIdAndUpdate(
+        req.params.id,
+        item,
+        {},
+        function (err, itemResult) {
           if (err) return next(err);
 
           res.redirect(itemResult.url);
-        });
+        }
+      );
     }
   },
 ];

@@ -3,8 +3,8 @@
   <h2 class="text-center text-xl text-blue-500"><%= title %></h2>
   <% if (typeof errors !== 'undefined') { %>
   <ul>
-    <% for (const err in errors) { %>
-    <li>err.msg</li>
+    <% for (const err of errors) { %>
+    <li><%= err.msg %></li>
     <% } %>
   </ul>
   <% } %>
@@ -21,6 +21,7 @@
     "
     method="POST"
     action=""
+    enctype="multipart/form-data"
   >
     <label for="name" class="text-blue-500">Name</label>
     <input
@@ -50,6 +51,10 @@
         focus:outline-none focus:border-blue-900
         "
     ><%= typeof item === 'undefined' ? '' : item.description %></textarea>
+
+    <label for="avatar" class="pt-3 text-blue-500">Image</label>
+    <input type="file" name="avatar" id="avatar" />
+
     <label for="category" class="pt-3 text-blue-500">Category</label>
     <select
       name="category"

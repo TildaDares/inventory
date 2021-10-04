@@ -15,7 +15,7 @@
   <img
     src="/images/<%= item.filename || 'placeholder-image.jpeg' %>"
     alt="<%= (typeof item.filename !== 'undefined') ? item.name : 'No image available' %>"
-    class="w-full object-cover h-70vh"
+    class="w-full max-w-60 object-cover h-70vh"
   />
   <div class="w-full pl-7 pr-4 mt-8 sm:mt-0">
     <div class="flex justify-between items-center gap-5">

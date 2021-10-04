@@ -3,8 +3,8 @@
   <h2 class="text-center text-xl text-blue-500"><%= title %></h2>
   <% if (typeof errors !== 'undefined') { %>
   <ul>
-    <% for (const err in errors) { %>
-    <li>err.msg</li>
+    <% for (const err of errors) { %>
+    <li><%= err.msg %></li>
     <% } %>
   </ul>
   <% } %>
