@@ -5,20 +5,31 @@ const async = require("async");
 const { body, validationResult } = require("express-validator");
 const multer = require("multer");
 
-const uniqueFileName = (fieldname) => {
-  return Date.now() + "-" + fieldname + ".jpg";
-};
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "public/images/");
   },
   filename: function (req, file, cb) {
-    cb(null, uniqueFileName(file.fieldname));
+    cb(null, Date.now() + "-" + file.originalname);
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (
+      file.mimetype == "image/png" ||
+      file.mimetype == "image/jpg" ||
+      file.mimetype == "image/jpeg"
+    ) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+      return cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
+    }
+  },
+  limits: { fileSize: 1000000 },
+});
 
 exports.index = function (req, res, next) {
   Item.find({})
@@ -72,8 +83,8 @@ exports.item_create_get = function (req, res, next) {
 };
 
 exports.item_create_post = [
-  upload.single("avatar"),
-  
+  upload.single('avatar'),
+
   body("name", "Title must not be empty.").trim().isLength({ min: 1 }).escape(),
   body("price", "Price must not be empty.")
     .trim()
@@ -86,7 +97,6 @@ exports.item_create_post = [
 
   (req, res, next) => {
     const errors = validationResult(req);
-    console.log(req);
 
     const item = new Item({
       name: req.body.name,
