@@ -4,6 +4,7 @@ const itemsController = require("../controllers/itemController");
 const brandsController = require("../controllers/brandController");
 const categoryController = require("../controllers/categoryController");
 
+router.get("/", itemsController.index);
 router.get("/items/:name/:id/update", itemsController.item_update_get);
 router.post("/items/:name/:id/update", itemsController.item_update_post);
 router.get("/items/:name/:id/delete", itemsController.item_delete_get);
